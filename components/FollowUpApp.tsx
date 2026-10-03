@@ -65,8 +65,7 @@ export default function FollowUpApp(){
       if(found.length<3){const lexical=lexicalSearch(memories,question,8);const ids=new Set(found.map(x=>x.id));found=[...found,...lexical.filter(x=>!ids.has(x.id))].slice(0,8);}
       setHits(found);
       if(question.toLowerCase().includes('forget')){
-        found=[...memories.filter(m=>['deadline','payment','renewal','request','offer'].includes(m.category)).sort((a,b)=>(a.date??'9999').localeCompare(b.date??'9999')), ...found].filter((m,i,a)=>a.findIndex(x=>x.id===m.id)===i).slice(0,8);
-        setHits(found);
+found=[...memories.filter(m=>['deadline','payment','renewal','request','offer'].includes(m.category)).map(m=>({...m,score:0})), ...found].filter((m,i,a)=>a.findIndex(x=>x.id===m.id)===i).slice(0,8);        setHits(found);
       }
       if(mode==='assisted'){
         if(!backboardReady) throw new Error('Assisted Mode is not configured yet. Add BACKBOARD_API_KEY on the server first.');
